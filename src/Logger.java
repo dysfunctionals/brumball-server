@@ -40,4 +40,8 @@ public abstract class Logger {
         level.log(message);
     }
 
+    public static void log(int message, Level level){
+        level.log(Integer.toString(message));
+    }
+
 }
