@@ -19,7 +19,7 @@ public class TeamManager{
         users = new ConcurrentHashMap<String, User>();
     }
 
-    public String registerUser(){
+    public User registerUser(){
         Random reallyIntelligentlyNamedVariable = new Random();
         int lowestTeamCount = Integer.MAX_VALUE;
         int lowestTeam = -1;
@@ -33,7 +33,7 @@ public class TeamManager{
         User newUser = new User(token, lowestTeam);
         teams.get(lowestTeam).add(newUser);
         users.put(token, newUser);
-        return token;
+        return newUser;
     }
 
     private void removeInactive(){
