@@ -6,7 +6,7 @@ public class Server {
     private HTTPServer http;
     public static TeamManager teamManager;
 
-    public Server(int clientPort, int displayPort){
+    public Server(int clientPort){
         teamManager = new TeamManager();
         Logger.log("Starting HTTP Server",Logger.Level.DEBUG);
         try {
@@ -22,7 +22,7 @@ public class Server {
 
     public static void main(String[] args){
         Logger.log("Starting Brumball", Logger.Level.INFO);
-        Server server = new Server(8080,1729); // Port 8080 for dev purposes
+        Server server = new Server(8080); // Port 8080 for dev purposes
     }
 
     public static class ConnectHandler extends HTTPServer.MainHandler {
@@ -37,7 +37,7 @@ public class Server {
             // To Add: Interface with TeamManager
             User user = Server.teamManager.registerUser();
             Logger.log("User Connected: " + user.getToken() + " to Team " + user.getTeam(), Logger.Level.INFO);
-            return "{\"token\":\"" + user.getToken() + "\",\"paddle\":" + user.getTeam() + "}\n";
+            return "{\"status\":\"success\",\"token\":\"" + user.getToken() + "\",\"paddle\":" + user.getTeam() + "}\n";
         }
     }
 
@@ -50,9 +50,25 @@ public class Server {
         @Override
         public String getResponse(HashMap <String,String> postData) {
 
-            // To Add: Interface with TeamManager
+            if(!postData.containsKey("token")) return "{\"status\":\"fail\",\"message\":\"Token missing\"}\n";
 
-            return "{\"status\":\"success\"\n";
+            User user = Server.teamManager.getUser(postData.get("token"));
+
+            if(user == null) return "{\"status\":\"fail\",\"message\":\"Invalid Token\"}\n";
+
+            if(!postData.containsKey("motion")) return "{\"status\":\"fail\"\"message\":\"Motion missing\"}\n";
+
+            int motion = 0;
+
+            try{
+                motion = Integer.parseInt(postData.get("motion"));
+            }catch (Exception e) {
+                return "{\"status\":\"fail\",\"message\":\"Invalid Motion value\"}\n";
+            }
+
+            user.setVote(motion);
+
+            return "{\"status\":\"success\"}\n";
         }
     }
 }

@@ -41,7 +41,6 @@ public class HTTPServer {
                 int bodyLength = Integer.parseInt(requestHeaders.get("Content-length").get(0));
 
 
-                Logger.log("DEBUG", Logger.Level.DEBUG);
                 if(bodyLength > 0){
                     BufferedInputStream bis = new BufferedInputStream(t.getRequestBody());
                     byte[] data = new byte[bodyLength];
@@ -74,7 +73,7 @@ public class HTTPServer {
 
     public static class DefaultHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {
-            byte [] response = "That's an invalid uri!\n".getBytes();
+            byte [] response = "{\"status\":\"fail\"}\n".getBytes();
             t.sendResponseHeaders(404, response.length);
             OutputStream os = t.getResponseBody();
             os.write(response);
