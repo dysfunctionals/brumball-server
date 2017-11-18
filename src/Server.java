@@ -107,13 +107,12 @@ public class Server {
 
             List<Double> teamvalues = Server.teamManager.teamList();
 
-            String data = "";
-
+            StringBuilder data = new StringBuilder();
             for(double value : teamvalues){
-                data += Double.toString(value) + ",";
+                data.append(Double.toString(value)).append(",");
             }
 
-            return "{\"status\":\"success\",\"data\":{" + data + "}\n";
+            return "{\"status\":\"success\",\"data\":[" + data.substring(0, data.length()-1) + "]}\n";
         }
     }
 }
