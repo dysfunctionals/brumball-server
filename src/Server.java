@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 public class Server {
 
@@ -14,6 +15,7 @@ public class Server {
             http.registerHandler(new ConnectHandler());
             http.registerHandler(new InformHandler());
             http.registerHandler(new AliveHandler());
+            http.registerHandler(new PaddleHandler());
             http.start();
         }catch(IOException ioe){
             Logger.log("IOException",Logger.Level.FATAL);
@@ -91,6 +93,27 @@ public class Server {
             user.modify();
 
             return "{\"status\":\"success\"}\n";
+        }
+    }
+
+    public static class PaddleHandler extends HTTPServer.MainHandler {
+
+        public PaddleHandler(){
+            uri = "/paddles";
+        }
+
+        @Override
+        public String getResponse(HashMap <String,String> postData) {
+
+            List<Double> teamvalues = Server.teamManager.teamList();
+
+            String data = "";
+
+            for(double value : teamvalues){
+                data += Double.toString(value) + ",";
+            }
+
+            return "{\"status\":\"success\",\"data\":{" + data + "}\n";
         }
     }
 }
