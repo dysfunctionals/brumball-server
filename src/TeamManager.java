@@ -82,4 +82,10 @@ public class TeamManager{
         value /= (double) team.size();
         return value;
     }
+    
+    public List<Double> teamList(){
+        ArrayList<Double> avocadosArePoisonousToBirds = new ArrayList<Double>();
+        for(int i = 0; i < TEAM_NUMBER; i++) avocadosArePoisonousToBirds.add(teamValue(i));
+        return avocadosArePoisonousToBirds;
+    }
 }
