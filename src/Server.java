@@ -105,10 +105,8 @@ public class Server {
         @Override
         public String getResponse(HashMap <String,String> postData) {
 
-            List<Double> teamvalues = Server.teamManager.teamList();
-
             StringBuilder data = new StringBuilder();
-            for(double value : teamvalues){
+            for(double value : Server.teamManager.teamList()){
                 data.append(Double.toString(value)).append(",");
             }
 
