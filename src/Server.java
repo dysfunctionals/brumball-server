@@ -13,6 +13,7 @@ public class Server {
             http = new HTTPServer(clientPort);
             http.registerHandler(new ConnectHandler());
             http.registerHandler(new InformHandler());
+            http.registerHandler(new AliveHandler());
             http.start();
         }catch(IOException ioe){
             Logger.log("IOException",Logger.Level.FATAL);
@@ -67,6 +68,27 @@ public class Server {
             }
 
             user.setVote(motion);
+
+            return "{\"status\":\"success\"}\n";
+        }
+    }
+
+    public static class AliveHandler extends HTTPServer.MainHandler {
+
+        public AliveHandler(){
+            uri = "/alive";
+        }
+
+        @Override
+        public String getResponse(HashMap <String,String> postData) {
+
+            if(!postData.containsKey("token")) return "{\"status\":\"fail\",\"message\":\"Token missing\"}\n";
+
+            User user = Server.teamManager.getUser(postData.get("token"));
+
+            if(user == null) return "{\"status\":\"fail\",\"message\":\"Invalid Token\"}\n";
+
+            user.modify();
 
             return "{\"status\":\"success\"}\n";
         }

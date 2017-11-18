@@ -34,7 +34,7 @@ public class User{
     }
 
     public boolean isAlive(){
-        if( System.currentTimeMillis() - lastModified > 15000 ){
+        if( System.currentTimeMillis() - lastModified > 1500000 ){
             return false;
         } else {
             return true;
