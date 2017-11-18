@@ -79,7 +79,7 @@ public class TeamManager{
         for(User yes : team){
             value += yes.getVote();
         }
-        value /= (double) team.size();
+        if(team.size()!=0) value /= (double) team.size();
         return value;
     }
     
