@@ -22,16 +22,14 @@ public class HTTPServer {
 
     public static class ConnectHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {
-            Logger.log("Handling", Logger.Level.DEBUG);
-            Logger.log(t.getRequestBody().available(), Logger.Level.DEBUG);
-            //byte [] response = t.getRequestMethod().getBytes();
-            t.sendResponseHeaders(200, t.getRequestBody().available());
+            Logger.log("Connect Request", Logger.Level.DEBUG);
+            byte [] response = "{\"message\":\"Hi Tim\"}\n".getBytes();
+            Headers responseHeaders = t.getResponseHeaders();
+            responseHeaders.add("Content-Type","application/json");
+            responseHeaders.add("Access-Control-Allow-Origin","*");
+            t.sendResponseHeaders(200,response.length);
             OutputStream os = t.getResponseBody();
-            //os.write(response);
-            Scanner sc = new Scanner(t.getRequestBody());
-            while(sc.hasNext()){
-                os.write(sc.nextByte());
-            }
+            os.write(response);
             os.close();
         }
     }
