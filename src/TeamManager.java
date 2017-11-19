@@ -80,7 +80,7 @@ public class TeamManager{
         for(User yes : team){
             value += yes.getVote();
         }
-        if(team.size()!=0) value /= (double) team.size();
+        if(team.size()!=0) value = ((double) value) /  ((double) team.size());
         Logger.log("" + teamNumber + ": " + value, Logger.Level.DEBUG);
         return value;
     }
