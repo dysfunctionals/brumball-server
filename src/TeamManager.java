@@ -81,13 +81,15 @@ public class TeamManager{
             value += yes.getVote();
         }
         if(team.size()!=0) value /= (double) team.size();
-        Logger.log("" + value, Logger.Level.DEBUG);
+        Logger.log("" + teamNumber + ": " + value, Logger.Level.DEBUG);
         return value;
     }
     
     public List<Double> teamList(){
         ArrayList<Double> teams = new ArrayList<Double>();
-        for(int i = 0; i < TEAM_NUMBER; i++) teams.add(teamValue(i));
+        for(int i = 0; i < TEAM_NUMBER; i++){
+            teams.add(teamValue(i));
+        }
         return teams;
     }
 
