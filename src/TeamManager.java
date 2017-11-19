@@ -81,7 +81,6 @@ public class TeamManager{
             value += yes.getVote();
         }
         if(team.size()!=0) value = ((double) value) /  ((double) team.size());
-        Logger.log("" + teamNumber + ": " + value, Logger.Level.DEBUG);
         return value;
     }
     
