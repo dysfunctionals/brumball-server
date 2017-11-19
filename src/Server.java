@@ -16,6 +16,7 @@ public class Server {
             http.registerHandler(new InformHandler());
             http.registerHandler(new AliveHandler());
             http.registerHandler(new PaddleHandler());
+            http.registerHandler(new StatHandler());
             http.start();
         }catch(IOException ioe){
             Logger.log("IOException",Logger.Level.FATAL);
@@ -111,6 +112,19 @@ public class Server {
             }
 
             return "{\"status\":\"success\",\"data\":[" + data.substring(0, data.length()-1) + "]}\n";
+        }
+    }
+
+    public static class StatHandler extends HTTPServer.MainHandler {
+
+        public StatHandler(){
+            uri = "/stats";
+        }
+
+        @Override
+        public String getResponse(HashMap <String,String> postData) {
+
+            return "{\"status\":\"success\",\"userCount\":" + Server.teamManager.getUserCount() + "}\n";
         }
     }
 }

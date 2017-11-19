@@ -37,38 +37,39 @@ public class TeamManager{
     }
 
     private void removeInactive(){
-        ArrayList<User> bringOutYourDead = new ArrayList<User>();
+        ArrayList<User> users = new ArrayList<User>();
         ArrayList<String> deadTokens = new ArrayList<String>();
-        for(String token : users.keySet()){
-            if(!users.get(token).isAlive()){
-                bringOutYourDead.add(users.get(token));
+        for(String token : this.users.keySet()){
+            if(!this.users.get(token).isAlive()){
+                users.add(this.users.get(token));
                 deadTokens.add(token);
             }
         }
 
-        for(User dead : bringOutYourDead){
+        for(User dead : users){
             for(List<User> team : teams){
                 team.remove(dead);
             }
         }
 
         for(String dead : deadTokens){
-            users.remove(dead);
+            Logger.log("Killed: " + dead, Logger.Level.INFO);
+            this.users.remove(dead);
         }
     }
 
     public User getUser(String token){
-        User pleaseHelpIReallyDontKnowWhatIAmDoing = users.get(token);
-        if(pleaseHelpIReallyDontKnowWhatIAmDoing == null){
+        User user = users.get(token);
+        if(user == null){
             return null;
-        } else if (!pleaseHelpIReallyDontKnowWhatIAmDoing.isAlive()){
+        } else if (!user.isAlive()){
             users.remove(token);
             for(List<User> team : teams){
-                team.remove(pleaseHelpIReallyDontKnowWhatIAmDoing);
+                team.remove(user);
             }
             return null;
         } else {
-            return pleaseHelpIReallyDontKnowWhatIAmDoing;
+            return user;
         }
     }
 
@@ -84,8 +85,12 @@ public class TeamManager{
     }
     
     public List<Double> teamList(){
-        ArrayList<Double> avocadosArePoisonousToBirds = new ArrayList<Double>();
-        for(int i = 0; i < TEAM_NUMBER; i++) avocadosArePoisonousToBirds.add(teamValue(i));
-        return avocadosArePoisonousToBirds;
+        ArrayList<Double> teams = new ArrayList<Double>();
+        for(int i = 0; i < TEAM_NUMBER; i++) teams.add(teamValue(i));
+        return teams;
+    }
+
+    public int getUserCount(){
+        return users.size();
     }
 }
